@@ -3,6 +3,10 @@
 Part of **Mini-Hospital 2026**, a teaching hospital built for the course on
 hospital, e-health and connected-medical-device informatics.
 
+> Start here if you are new: the
+> [course guide](https://github.com/LucaProcaryote/Dev_Central/blob/main/COURSE.md)
+> explains how the six repositories fit together and contains the lab exercises.
+
 This application moves patients: it admits them, transfers them between beds
 and wards, discharges them, and keeps the bed board that everyone else reads.
 
