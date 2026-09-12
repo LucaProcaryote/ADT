@@ -29,26 +29,30 @@ void reportResult(
   final messenger = ScaffoldMessenger.of(context);
 
   if (!result.isSuccess) {
-    messenger.showSnackBar(SnackBar(
-      backgroundColor: HospitalTheme.criticalOf(context),
-      content: Text(describeRefusal(l10n, result.refusal!)),
-    ));
+    messenger.showSnackBar(
+      SnackBar(
+        backgroundColor: HospitalTheme.criticalOf(context),
+        content: Text(describeRefusal(l10n, result.refusal!)),
+      ),
+    );
     return;
   }
 
-  messenger.showSnackBar(SnackBar(
-    content: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Text(successMessage),
-        Text(
-          result.published ? l10n.adtEmitEvent : l10n.adtEmitFailed,
-          style: const TextStyle(fontSize: 12),
-        ),
-      ],
+  messenger.showSnackBar(
+    SnackBar(
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(successMessage),
+          Text(
+            result.published ? l10n.adtEmitEvent : l10n.adtEmitFailed,
+            style: const TextStyle(fontSize: 12),
+          ),
+        ],
+      ),
     ),
-  ));
+  );
 }
 
 /// Admits a patient: pick the type of stay and a free bed.
@@ -94,10 +98,8 @@ Future<void> showTransferDialog({
 
   final request = await showDialog<_TransferRequest>(
     context: context,
-    builder: (context) => _TransferDialog(
-      patient: patient,
-      currentBedId: encounter.bedId,
-    ),
+    builder: (context) =>
+        _TransferDialog(patient: patient, currentBedId: encounter.bedId),
   );
   if (request == null || !context.mounted) return;
 
@@ -129,10 +131,8 @@ Future<void> showDischargeDialog({
 
   final request = await showDialog<_DischargeRequest>(
     context: context,
-    builder: (context) => _DischargeDialog(
-      patient: patient,
-      bedLabel: bedLabel ?? '—',
-    ),
+    builder: (context) =>
+        _DischargeDialog(patient: patient, bedLabel: bedLabel ?? '—'),
   );
   if (request == null || !context.mounted) return;
 
@@ -232,13 +232,15 @@ class _AdmissionDialogState extends State<_AdmissionDialog> {
         FilledButton(
           onPressed: _bed == null
               ? null
-              : () => Navigator.of(context).pop(_AdmissionRequest(
+              : () => Navigator.of(context).pop(
+                  _AdmissionRequest(
                     bed: _bed!,
                     encounterClass: _class,
                     reason: _reasonController.text.trim().isEmpty
                         ? null
                         : _reasonController.text.trim(),
-                  )),
+                  ),
+                ),
           child: Text(l10n.adtAdmitPatient),
         ),
       ],
@@ -309,12 +311,14 @@ class _TransferDialogState extends State<_TransferDialog> {
         FilledButton(
           onPressed: _bed == null
               ? null
-              : () => Navigator.of(context).pop(_TransferRequest(
+              : () => Navigator.of(context).pop(
+                  _TransferRequest(
                     bed: _bed!,
                     note: _noteController.text.trim().isEmpty
                         ? null
                         : _noteController.text.trim(),
-                  )),
+                  ),
+                ),
           child: Text(l10n.adtTransfer),
         ),
       ],
@@ -343,29 +347,33 @@ class _DischargeDialogState extends State<_DischargeDialog> {
   /// HL7 discharge dispositions, kept to the ones this hospital uses.
   static const Map<String, Map<String, String>> _dispositions =
       <String, Map<String, String>>{
-    'home': <String, String>{'en': 'Home', 'fr': 'Domicile', 'nl': 'Naar huis'},
-    'other-hcf': <String, String>{
-      'en': 'Another healthcare facility',
-      'fr': 'Autre établissement de soins',
-      'nl': 'Andere zorginstelling',
-    },
-    'rehab': <String, String>{
-      'en': 'Rehabilitation',
-      'fr': 'Revalidation',
-      'nl': 'Revalidatie',
-    },
-    'snf': <String, String>{
-      'en': 'Nursing home',
-      'fr': 'Maison de repos et de soins',
-      'nl': 'Woonzorgcentrum',
-    },
-    'aadvice': <String, String>{
-      'en': 'Left against medical advice',
-      'fr': 'Sortie contre avis médical',
-      'nl': 'Vertrokken tegen medisch advies',
-    },
-    'exp': <String, String>{'en': 'Died', 'fr': 'Décès', 'nl': 'Overleden'},
-  };
+        'home': <String, String>{
+          'en': 'Home',
+          'fr': 'Domicile',
+          'nl': 'Naar huis',
+        },
+        'other-hcf': <String, String>{
+          'en': 'Another healthcare facility',
+          'fr': 'Autre établissement de soins',
+          'nl': 'Andere zorginstelling',
+        },
+        'rehab': <String, String>{
+          'en': 'Rehabilitation',
+          'fr': 'Revalidation',
+          'nl': 'Revalidatie',
+        },
+        'snf': <String, String>{
+          'en': 'Nursing home',
+          'fr': 'Maison de repos et de soins',
+          'nl': 'Woonzorgcentrum',
+        },
+        'aadvice': <String, String>{
+          'en': 'Left against medical advice',
+          'fr': 'Sortie contre avis médical',
+          'nl': 'Vertrokken tegen medisch advies',
+        },
+        'exp': <String, String>{'en': 'Died', 'fr': 'Décès', 'nl': 'Overleden'},
+      };
 
   String _disposition = 'home';
 
@@ -389,13 +397,17 @@ class _DischargeDialogState extends State<_DischargeDialog> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
-              l10n.adtDischargeConfirm(widget.patient.fullName, widget.bedLabel),
+              l10n.adtDischargeConfirm(
+                widget.patient.fullName,
+                widget.bedLabel,
+              ),
             ),
             Gap.h16,
             DropdownButtonFormField<String>(
               initialValue: _disposition,
-              decoration:
-                  InputDecoration(labelText: l10n.adtDischargeDisposition),
+              decoration: InputDecoration(
+                labelText: l10n.adtDischargeDisposition,
+              ),
               items: <DropdownMenuItem<String>>[
                 for (final entry in _dispositions.entries)
                   DropdownMenuItem<String>(
@@ -424,12 +436,14 @@ class _DischargeDialogState extends State<_DischargeDialog> {
           child: Text(l10n.actionCancel),
         ),
         FilledButton(
-          onPressed: () => Navigator.of(context).pop(_DischargeRequest(
-            disposition: _disposition,
-            note: _noteController.text.trim().isEmpty
-                ? null
-                : _noteController.text.trim(),
-          )),
+          onPressed: () => Navigator.of(context).pop(
+            _DischargeRequest(
+              disposition: _disposition,
+              note: _noteController.text.trim().isEmpty
+                  ? null
+                  : _noteController.text.trim(),
+            ),
+          ),
           child: Text(l10n.adtDischarge),
         ),
       ],

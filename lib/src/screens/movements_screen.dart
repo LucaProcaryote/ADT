@@ -69,7 +69,9 @@ class _MovementsScreenState extends State<MovementsScreen> {
               final patients = <String, Patient>{};
               for (final movement in movements) {
                 if (patients.containsKey(movement.patientId)) continue;
-                final patient = await repository.findPatient(movement.patientId);
+                final patient = await repository.findPatient(
+                  movement.patientId,
+                );
                 if (patient != null) patients[patient.id] = patient;
               }
               final beds = await repository.listBeds();
@@ -174,7 +176,8 @@ class _MovementTile extends StatelessWidget {
             ),
           ),
           StatusChip(
-            label: '${movement.type.display.forLanguage(language)} '
+            label:
+                '${movement.type.display.forLanguage(language)} '
                 '· ADT^${movement.type.hl7EventCode}',
             color: color,
             dense: true,
@@ -188,9 +191,9 @@ class _MovementTile extends StatelessWidget {
             movement.type == MovementType.admission
                 ? '${l10n.labelTo} ${where(movement.toWardId, movement.toBedId)}'
                 : movement.type == MovementType.discharge
-                    ? '${l10n.labelFrom} ${where(movement.fromWardId, movement.fromBedId)}'
-                    : '${where(movement.fromWardId, movement.fromBedId)} '
-                        '→ ${where(movement.toWardId, movement.toBedId)}',
+                ? '${l10n.labelFrom} ${where(movement.fromWardId, movement.fromBedId)}'
+                : '${where(movement.fromWardId, movement.fromBedId)} '
+                      '→ ${where(movement.toWardId, movement.toBedId)}',
             style: theme.textTheme.bodySmall,
           ),
           if (movement.note != null)

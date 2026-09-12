@@ -16,11 +16,11 @@ Color bedStatusColor(BuildContext context, BedStatus status) =>
     };
 
 IconData bedStatusIcon(BedStatus status) => switch (status) {
-      BedStatus.free => Icons.check_circle_outline,
-      BedStatus.occupied => Icons.person,
-      BedStatus.cleaning => Icons.cleaning_services_outlined,
-      BedStatus.blocked => Icons.block,
-    };
+  BedStatus.free => Icons.check_circle_outline,
+  BedStatus.occupied => Icons.person,
+  BedStatus.cleaning => Icons.cleaning_services_outlined,
+  BedStatus.blocked => Icons.block,
+};
 
 /// The legend shown above the bed board. With four statuses on screen at once
 /// a legend is not optional.
@@ -38,7 +38,8 @@ class BedStatusLegend extends StatelessWidget {
       children: <Widget>[
         for (final status in BedStatus.values)
           StatusChip(
-            label: '${status.display.forLanguage(language)} '
+            label:
+                '${status.display.forLanguage(language)} '
                 '· ${counts[status] ?? 0}',
             color: bedStatusColor(context, status),
             icon: bedStatusIcon(status),

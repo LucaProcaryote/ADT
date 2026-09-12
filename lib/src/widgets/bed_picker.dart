@@ -41,10 +41,9 @@ class _BedPickerState extends State<BedPicker> {
         beds: await repository.listBeds(wardId: _wardId),
       ),
       builder: (context, data) {
-        final beds = data.beds
-            .where((b) => b.id != widget.excludeBedId)
-            .toList()
-          ..sort((a, b) => a.label.compareTo(b.label));
+        final beds =
+            data.beds.where((b) => b.id != widget.excludeBedId).toList()
+              ..sort((a, b) => a.label.compareTo(b.label));
         final freeCount = beds.where((b) => b.isAvailable).length;
 
         return Column(
@@ -91,10 +90,7 @@ class _BedPickerState extends State<BedPicker> {
                   ],
                 ),
               ),
-            Text(
-              l10n.adtSelectBed,
-              style: theme.textTheme.labelMedium,
-            ),
+            Text(l10n.adtSelectBed, style: theme.textTheme.labelMedium),
             Gap.h8,
             SizedBox(
               height: 220,
@@ -173,8 +169,9 @@ class _SelectableBed extends StatelessWidget {
                   Gap.w4,
                   Text(
                     bed.label,
-                    style: theme.textTheme.labelMedium
-                        ?.copyWith(fontWeight: FontWeight.w700),
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),

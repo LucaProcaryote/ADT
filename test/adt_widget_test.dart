@@ -17,28 +17,31 @@ Future<MemoryHospitalRepository> pumpAdt(WidgetTester tester) async {
     seedUsers.firstWhere((u) => u.role == UserRole.admissionClerk),
   );
 
-  await tester.pumpWidget(MiniHospitalApp(
-    config: const AppConfig(
-      app: HospitalApp.adt,
-      backendMode: BackendMode.memory,
-      authMode: AuthMode.demo,
-      apiBaseUrl: '',
-      fhirBaseUrl: '',
-      eaiBaseUrl: '',
+  await tester.pumpWidget(
+    MiniHospitalApp(
+      config: const AppConfig(
+        app: HospitalApp.adt,
+        backendMode: BackendMode.memory,
+        authMode: AuthMode.demo,
+        apiBaseUrl: '',
+        fhirBaseUrl: '',
+        eaiBaseUrl: '',
+      ),
+      title: (l10n) => l10n.appTitleAdt,
+      homeBuilder: (context) => const AdtHome(),
+      repositoryOverride: repository,
+      authOverride: auth,
+      localeStore: InMemoryLocaleStore(),
     ),
-    title: (l10n) => l10n.appTitleAdt,
-    homeBuilder: (context) => const AdtHome(),
-    repositoryOverride: repository,
-    authOverride: auth,
-    localeStore: InMemoryLocaleStore(),
-  ));
+  );
   await tester.pumpAndSettle();
   return repository;
 }
 
 void main() {
-  testWidgets('the bed board shows wards, beds and a status legend',
-      (tester) async {
+  testWidgets('the bed board shows wards, beds and a status legend', (
+    tester,
+  ) async {
     await pumpAdt(tester);
 
     expect(find.text('Admission, Transfer & Discharge'), findsOneWidget);
@@ -64,8 +67,9 @@ void main() {
     expect(find.text('Occupied'), findsOneWidget);
   });
 
-  testWidgets('the movement log labels each row with its HL7 event',
-      (tester) async {
+  testWidgets('the movement log labels each row with its HL7 event', (
+    tester,
+  ) async {
     await pumpAdt(tester);
 
     await tester.tap(find.text('Movements').last);
@@ -75,8 +79,9 @@ void main() {
     expect(find.textContaining('ADT^A02'), findsWidgets);
   });
 
-  testWidgets('an unadmitted patient is offered the admission action',
-      (tester) async {
+  testWidgets('an unadmitted patient is offered the admission action', (
+    tester,
+  ) async {
     await pumpAdt(tester);
 
     await tester.tap(find.text('Patients').last);

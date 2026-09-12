@@ -76,8 +76,9 @@ class _AdtPatientsScreenState extends State<AdtPatientsScreen> {
           child: RepositoryBuilder<_Data>(
             query: (repository) async {
               final patients = await repository.listPatients(query: _query);
-              final encounters =
-                  await repository.listEncounters(activeOnly: true);
+              final encounters = await repository.listEncounters(
+                activeOnly: true,
+              );
               final beds = await repository.listBeds();
               final wards = await repository.listWards();
               return _Data(
@@ -129,12 +130,12 @@ class _AdtPatientsScreenState extends State<AdtPatientsScreen> {
                     subtitle: Text(
                       encounter == null
                           ? '${l10n.patientAgeYears(patient.ageAt())} · '
-                              '${patient.mrn} · ${l10n.encounterNone}'
+                                '${patient.mrn} · ${l10n.encounterNone}'
                           : '${l10n.patientAgeYears(patient.ageAt())} · '
-                              '${patient.mrn} · '
-                              '${ward?.name.forLanguage(language) ?? '—'} '
-                              '${bed?.label ?? l10n.locationNotPlaced} · '
-                              '${l10n.encounterDays(encounter.lengthOfStayDays)}',
+                                '${patient.mrn} · '
+                                '${ward?.name.forLanguage(language) ?? '—'} '
+                                '${bed?.label ?? l10n.locationNotPlaced} · '
+                                '${l10n.encounterDays(encounter.lengthOfStayDays)}',
                       overflow: TextOverflow.ellipsis,
                     ),
                     trailing: encounter == null

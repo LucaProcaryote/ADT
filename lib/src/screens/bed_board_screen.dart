@@ -142,7 +142,8 @@ class _WardSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: Gap.md),
       child: SectionCard(
-        title: '${ward.name.forLanguage(language)} '
+        title:
+            '${ward.name.forLanguage(language)} '
             '(${l10n.locationFloor} ${ward.floor})',
         icon: Icons.meeting_room_outlined,
         trailing: Padding(
@@ -204,8 +205,9 @@ class _BedCard extends StatelessWidget {
                   Gap.w4,
                   Text(
                     bed.label,
-                    style: theme.textTheme.labelLarge
-                        ?.copyWith(fontWeight: FontWeight.w700),
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   const Spacer(),
                   if (data.rooms[bed.roomId]?.isIsolation ?? false)
@@ -226,8 +228,9 @@ class _BedCard extends StatelessWidget {
               if (patient != null) ...<Widget>[
                 Text(
                   patient.listName,
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

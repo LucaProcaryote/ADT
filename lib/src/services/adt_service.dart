@@ -32,11 +32,11 @@ class AdtResult {
     required bool published,
     String? publishError,
   }) : this._(
-          encounter: encounter,
-          movement: movement,
-          published: published,
-          publishError: publishError,
-        );
+         encounter: encounter,
+         movement: movement,
+         published: published,
+         publishError: publishError,
+       );
 
   final Encounter? encounter;
   final Movement? movement;
@@ -63,11 +63,8 @@ class AdtResult {
 /// deployment would wrap these in a database transaction, which is a good thing
 /// to point out to the students.
 class AdtService {
-  AdtService({
-    required this.repository,
-    required this.publisher,
-    Uuid? uuid,
-  }) : _uuid = uuid ?? const Uuid();
+  AdtService({required this.repository, required this.publisher, Uuid? uuid})
+    : _uuid = uuid ?? const Uuid();
 
   final HospitalRepository repository;
   final EventPublisher? publisher;
@@ -116,11 +113,13 @@ class AdtService {
     // admitted patient without a bed, which the bed board shows as "waiting for
     // a bed" rather than as a bed occupied by nobody.
     await repository.saveEncounter(encounter);
-    await repository.saveBed(current.copyWith(
-      status: BedStatus.occupied,
-      currentEncounterId: encounterId,
-      currentPatientId: patient.id,
-    ));
+    await repository.saveBed(
+      current.copyWith(
+        status: BedStatus.occupied,
+        currentEncounterId: encounterId,
+        currentPatientId: patient.id,
+      ),
+    );
 
     final movement = Movement(
       id: 'mv-${_uuid.v4()}',
@@ -171,11 +170,13 @@ class AdtService {
         origin.copyWith(status: BedStatus.cleaning, clearOccupant: true),
       );
     }
-    await repository.saveBed(target.copyWith(
-      status: BedStatus.occupied,
-      currentEncounterId: encounter.id,
-      currentPatientId: encounter.patientId,
-    ));
+    await repository.saveBed(
+      target.copyWith(
+        status: BedStatus.occupied,
+        currentEncounterId: encounter.id,
+        currentPatientId: encounter.patientId,
+      ),
+    );
 
     final updated = encounter.copyWith(
       wardId: target.wardId,
