@@ -1,11 +1,11 @@
 {
-    "name": "adt_app",
-    "short_name": "adt_app",
+    "name": "Mini-Hospital ADT",
+    "short_name": "ADT",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Mini-Hospital 2026 - Admission, Transfer and Discharge",
+    "background_color": "#004F52",
+    "theme_color": "#00696D",
+    "description": "Mini-Hospital 2026 - Admission, transfer and discharge - the bed board",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
