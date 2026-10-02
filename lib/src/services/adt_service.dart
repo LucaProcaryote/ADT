@@ -276,9 +276,22 @@ class AdtService {
         published: false,
       );
     }
+    // The patient is fetched only so the event can also be written as a real
+    // ADT^A0x: PID needs a name, a birth date and an identifier, none of
+    // which the movement itself carries. Without it the engine still gets the
+    // JSON event, so a lookup failure costs the v2 view and nothing else.
+    final patient = await repository.findPatient(movement.patientId);
+    final wards = await repository.listWards();
+    final ward = encounter.wardId == null
+        ? null
+        : wards.where((w) => w.id == encounter.wardId).firstOrNull;
+
     final result = await publisher!.publishMovement(
       movement: movement,
       encounter: encounter,
+      patient: patient,
+      wardName: ward?.name.en,
+      bedName: encounter.bedId,
     );
     return AdtResult.done(
       encounter: encounter,
